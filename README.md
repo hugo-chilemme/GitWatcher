@@ -7,7 +7,7 @@ Bienvenue sur GitWatcher, un projet de suivi de feed de commits qui ne suit pas 
 <br><br>
 
 ### ⏱️    À faire
-- Ajouter la possibilitée de réception les données par Websocket
+- Ajouter la possibilitée de réception des données par Websocket
 - Ajouter la possibilitée de récupérer les données par REST API
 - Simplifier l'utilisation (ajouter des Github User Tracking)
 - Améliorer le système de récupération (pour être plus précis)
