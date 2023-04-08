@@ -3,15 +3,10 @@ from bin.modules.setTimeout import setTimeout
 from bin.libs.github import find_commits_by_users_and_searchterm, find_last_commit_by_repository, save_commit_to_database
 from bin.libs.database import get_table
 from bin.labs.analyzer import get_xp_from_title
-from bin.labs.flask import set_last_commit, start_flask
-import asyncio
 
 # Create a dictionary of oldest commits
 db_commits = get_table('commits', "ORDER BY ORDER_ID DESC")
 oldest_commits = {commit['ID']: commit for commit in db_commits}
-if len(db_commits) > 0:
-    set_last_commit(db_commits[0])
-
 # Create a list of Github usernames from the 'users' table
 github_list = [user['Github'] for user in get_table('users') if user.get('Github')]
 
@@ -62,11 +57,5 @@ def process():
  
     
 if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(
-        asyncio.gather(
-            process(), 
-            start_flask()
-        )
-    )
+    process()
     

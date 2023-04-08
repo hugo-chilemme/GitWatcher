@@ -31,7 +31,13 @@ def get_xp_from_title(title):
         else:
             
             # He loses a point
-            points -= 1
+            if len(word) > 10:
+                
+                points -= len(word) / 3
+                
+            else:
+            
+                points -= 1
 
     # Returns points
     return points
