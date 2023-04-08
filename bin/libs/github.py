@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import hashlib
 from bin.libs.database import execute
 
-def get_commits(users=[], searchterm=""):
+def find_commits_by_users_and_searchterm(users=[], searchterm=""):
 
     # Creating a string with +user%3A as delimiter
     userstring = "+user%3A".join(users)
@@ -53,33 +53,51 @@ def get_commits(users=[], searchterm=""):
                     'REPOSITORY': repository,
                     'DATETIME': datetime
                 })
+              
+    # Returns the list of commits
     return commits
 
 
-def get_last_commit_repository(userId, repository):
+def find_last_commit_by_repository(userId, repository):
     
     # URL formation
-    repo_url = f"https://github.com/{userId}/{repository}/commits"
+    api_url = f"https://api.github.com/repos/{userId}/{repository}/commits"
 
     # Sending the request
-    r = requests.get(repo_url)
+    r = requests.get(api_url)
 
     # Status check : 200 = SUCCESS
     if r.status_code == 200:
         
-        # Conversion of string to html parse
-        soup = BeautifulSoup(r.content, 'html.parser')
-
-        # Retrieving the latest commits from the repository
-        commits = soup.find_all(class_='js-navigation-open')
+        # Reusing the variable to retrieve the json
+        r = r.json()[0]
         
-        # Retrieving the title of the first commits
-        title = commits[4].contents[0]
+        # Retrieving the title
+        title = r['commit']['message']
         
         # Returning the title commit
         return title
+    
+    raise TypeError(f"API returned error code {r.status_code}")
 
 
-def save_commit(commit):   
-    execute("INSERT INTO commits(ID, USER_ID, REPOSITORY, TITLE, DATETIME) VALUES(%s, %s, %s, %s, %s)", 
-        (commit['ID'], commit['USER_ID'], commit['REPOSITORY'], commit['TITLE'], commit['DATETIME'], ))
+def save_commit_to_database(commit):
+    
+    # Structuring of the request
+    query = """
+        INSERT INTO commits(ID, USER_ID, REPOSITORY, TITLE, DATETIME)
+        VALUES(%(id)s, %(user_id)s, %(repository)s, %(title)s, %(datetime)s)
+    """
+    
+    # Data to insert
+    parameters = {
+        'id': commit['ID'],
+        'user_id': commit['USER_ID'],
+        'repository': commit['REPOSITORY'],
+        'title': commit['TITLE'],
+        'datetime': commit['DATETIME']
+    }
+
+    # Query Execution
+    execute(query, parameters)
+
