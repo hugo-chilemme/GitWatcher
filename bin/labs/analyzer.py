@@ -4,8 +4,12 @@ from spellchecker import SpellChecker
 spell_en = SpellChecker(language='en')
 spell_fr = SpellChecker(language='fr')
 
+
 def is_word(word):
+    if word.isalpha() is False:
+        return False
     return word in spell_en or word in spell_fr
+
 
 def get_xp_from_title(title):
     

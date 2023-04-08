@@ -13,10 +13,17 @@ cnx = mysql.connector.connect(
 )
 
 
-def get_table(name, params=None):
+def get_table(name, params=""):
     cursor = cnx.cursor()
-    cursor.execute(f"SELECT * FROM {name}")
-    return cursor.fetchall()
+    cursor.execute(f"SELECT * FROM {name} {params}")
+    rows = cursor.fetchall()
+    columns = [column[0] for column in cursor.description]
+    result = []
+    for row in rows:
+        row_dict = dict(zip(columns, row))
+        result.append(row_dict)
+    return result
+
 
 def execute(query, params=()):
     cursor = cnx.cursor()

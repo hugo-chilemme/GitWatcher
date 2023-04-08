@@ -85,8 +85,8 @@ def save_commit_to_database(commit):
     
     # Structuring of the request
     query = """
-        INSERT INTO commits(ID, USER_ID, REPOSITORY, TITLE, DATETIME)
-        VALUES(%(id)s, %(user_id)s, %(repository)s, %(title)s, %(datetime)s)
+        INSERT INTO commits(ID, USER_ID, REPOSITORY, TITLE, DATETIME, XP)
+        VALUES(%(id)s, %(user_id)s, %(repository)s, %(title)s, %(datetime)s, %(xp)s)
     """
     
     # Data to insert
@@ -95,7 +95,8 @@ def save_commit_to_database(commit):
         'user_id': commit['USER_ID'],
         'repository': commit['REPOSITORY'],
         'title': commit['TITLE'],
-        'datetime': commit['DATETIME']
+        'datetime': commit['DATETIME'],
+        'xp': commit['XP']
     }
 
     # Query Execution
