@@ -4,13 +4,13 @@ from bs4 import BeautifulSoup
 import hashlib
 from bin.libs.database import execute
 
-def get_commits(users=[]):
+def get_commits(users=[], searchterm=""):
 
     # Creating a string with +user%3A as delimiter
     userstring = "+user%3A".join(users)
 
     # URL formation
-    url = f"https://github.com/search?o=desc&q=holberton-+user%3A{userstring}&s=updated&type=Repositories"
+    url = f"https://github.com/search?o=desc&q={searchterm}+user%3A{userstring}&s=updated&type=Repositories"
 
     # Found commits will be stored here
     commits = []

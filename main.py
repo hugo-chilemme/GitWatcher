@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from bin.modules.setInterval import setInterval
+from bin.modules.setTimeout import setTimeout
 from bin.libs.github import get_commits, get_last_commit_repository, save_commit
 from bin.libs.database import get_table
 
@@ -12,8 +12,10 @@ github_list = [user[3] for user in get_table('users') if user[3]]
 
 def process():
     """ main function """
-    # Retrieving the last 20 newsfeed commits
-    commits = get_commits(github_list)
+    
+    # Retrieving the last 20 newsfeed commits with the research topic "holberton-"
+    commits = get_commits(github_list, "holberton-")
+    
     for commit in commits:
         
         # check if you don't already have it
@@ -30,5 +32,9 @@ def process():
             
             # Announce in console
             print(f"New commit of {commit['USER_ID']}: {commit['TITLE']}")
+          
+    # We restart the process indefinitely every 15 seconds
+    setTimeout(process, 15000)
             
-setInterval(process, 15000)    
+if __name__ == "__main__":
+    process()
