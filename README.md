@@ -12,6 +12,9 @@ Bienvenue sur GitWatcher, un projet de suivi de feed de commits qui ne suit pas 
 - Simplifier l'utilisation (ajouter des Github User Tracking)
 - Améliorer le système de récupération (pour être plus précis)
 
+### ✖️ À corriger
+- Si une autre personne commit, l'auteur est affiché
+
 <br><br>
 ### 💣    Version instable
 Les utilisateurs doivent être conscients que les versions instables peuvent être instables ou même inutilisables, et qu'elles peuvent entraîner la perte de données ou d'autres problèmes. Les développeurs recommandent souvent aux utilisateurs de ne pas utiliser les versions instables dans un environnement de production, mais plutôt dans un environnement de test ou de développement où les risques sont moindres.
