@@ -69,14 +69,21 @@ def find_last_commit_by_repository(userId, repository):
     # Status check : 200 = SUCCESS
     if r.status_code == 200:
         
+        data = {}
+        
         # Reusing the variable to retrieve the json
         r = r.json()[0]
         
         # Retrieving the title
-        title = r['commit']['message']
+        data['title'] = r['commit']['message']
+        data['title'] = data['title'].replace('\n', '')
+        
+        if r['author'] and r['author']['login']:
+            
+            data['author'] = r['author']['login']
         
         # Returning the title commit
-        return title
+        return data
     
     raise TypeError(f"API returned error code {r.status_code}")
 
