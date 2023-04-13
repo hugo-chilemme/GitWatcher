@@ -28,7 +28,6 @@ for commit in oldest_commits:
 typemode = "Repositories"
 
 def process():
-    return 
     global typemode
     """ main function """
     
@@ -77,7 +76,6 @@ def process():
             
             commit['XP_BEFORE'] = users[userId]['XP']
             commit['DISPLAYED'] = 0
-            users[userId]['XP'] += experience
             # The system may have detected that the author is not the creator of the repo
                 
             
@@ -89,7 +87,7 @@ def process():
             
             # Database Saving
             save_commit_to_database(commit)
-            execute("UPDATE users SET XP = {} WHERE Github = '{}'".format(users[userId]['XP'], userId))
+            
             
             # Announce in console
             print(f"New commit of {userId} ({experience}): {commit.get('TITLE')}")
@@ -175,6 +173,10 @@ def commits_setDisplayed(commit_id):
     if oldest_commits.get(commit_id) is not None: 
     # and cf_connecting_ip == "80.125.5.170":
         oldest_commits[commit_id]['DISPLAYED'] = 1
+        userId = oldest_commits[commit_id]['USER_ID']
+        
+        users[userId]['XP'] += oldest_commits[commit_id]['XP']
+        execute("UPDATE users SET XP = {} WHERE Github = '{}'".format(users[userId]['XP'], userId))
         execute('UPDATE commits SET DISPLAYED = 1 WHERE ID = %(id)s', { 'id': commit_id })
             
     return { "ok": True}
@@ -204,7 +206,7 @@ def scoreboard():
 def version():
     return {
         "manifest": True,
-        "version": "v0.2.87-beta",
+        "version": "v0.2.91-beta",
     }
 
 

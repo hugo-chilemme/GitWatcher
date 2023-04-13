@@ -12,6 +12,7 @@ def find_commits_by_users_and_searchterm(users=[], searchterm=""):
     # URL formation
     url = f"https://github.com/search?o=desc&q=+user%3A{userstring}&s=updated&type=Repositories"
     
+    print(url)
     # Found commits will be stored here
     commits = []
 
@@ -66,7 +67,7 @@ def find_pullrequests_by_users_and_searchterm(users=[], searchterm=""):
 
     # URL formation
     url = f"https://github.com/search?o=desc&q=+user%3A{userstring}&s=updated&type=Issues"
-    
+    print(url);
     # Found commits will be stored here
     commits = []
 
